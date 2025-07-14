@@ -25,7 +25,7 @@ Auth	JWT-based authentication
 DB	MongoDB + Mongoose
 Real-time	Socket.IO (optional for collab)
 
-
+```
 📁 tasktrackr/
 ├── 📁 controllers/
 │   ├── authController.js
@@ -62,3 +62,4 @@ Real-time	Socket.IO (optional for collab)
 ├── package.json
 ├── README.md
 └── server.js
+```
