@@ -18,17 +18,17 @@ const signup = asyncHandler(async(req,res)=>{
     const {useremail,username,password} = req.body;
     console.log(useremail,"dsds");
     const check_already_taken = await userDetails.find({useremail:useremail});
-    if(check_already_taken)
+    console.log(check_already_taken);
+    if(check_already_taken.length > 0)
     {
         res.status(401).json({message:"Email has already been taken"});
     }
     const hashed_pass = await bcrypt.hash(password,10);
-    const createuser = await userDetails({
+    const createuser = await userDetails.create({
         useremail,
         username,
-        hashed_pass
+        password:hashed_pass
     });
-    createuser.save();
     if(createuser)
     {
         res.status(200).json({message:"User Created Successfully"});
@@ -36,5 +36,20 @@ const signup = asyncHandler(async(req,res)=>{
 
 })
 
-module.exports = {getAllUser,signup};
+const login = asyncHandler(async(req,res)=>{
+    const {useremail,password} = req.body;
+    const is_found = await userDetails.findOne({useremail});
+    console.log(is_found);
+    if(await bcrypt.compare(password,is_found.password) && is_found)
+    {
+        res.render("login",{message:"logged in successfully"});
+    }
+    else
+    {
+        res.render("login",{message:"check ur username and pass"});
+    }
+
+})
+
+module.exports = {getAllUser,signup,login};
 

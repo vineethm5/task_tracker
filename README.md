@@ -63,3 +63,11 @@ Real-time	Socket.IO (optional for collab)
 ├── README.md
 └── server.js
 ```
+
+| Tag                      | Purpose                   |
+| ------------------------ | ------------------------- |
+| `<%= %>`                 | Print (escaped HTML)      |
+| `<%- %>`                 | Print (unescaped HTML)    |
+| `<% %>`                  | Run JS code (no output)   |
+| `<%# %>`                 | Comment (ignored in HTML) |
+| `<%- include('file') %>` | Include another EJS file  |
