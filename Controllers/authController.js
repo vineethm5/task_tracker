@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const userDetails = require("../Model/User");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const getAllUser = asyncHandler(async(req,res)=>{
     const allusers = await userDetails.find();
@@ -42,6 +43,18 @@ const login = asyncHandler(async(req,res)=>{
     console.log(is_found);
     if(await bcrypt.compare(password,is_found.password) && is_found)
     {
+        
+        const token=jwt.sign({
+            "username":is_found.username,
+            "password":password,
+            "_id":is_found.id
+        },process.env.ACCESS_TOCKEN,{expiresIn:"1m"});
+
+        res.cookie("token",token,{
+            httpOnly:true,
+            secure:false,
+            maxAge:10000
+        });
         res.render("login",{message:"logged in successfully"});
     }
     else
